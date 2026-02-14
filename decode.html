@@ -43,7 +43,11 @@ body::after {
   margin: 20px auto;
   border: 1px solid #00ff00;
   height: 20px;
-  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#progressBox.show {
+  opacity: 1;
 }
 #progress {
   height: 100%;
@@ -53,11 +57,15 @@ body::after {
 
 /* Access granted */
 #access {
-  display: none;
+  opacity: 0;
   text-align: center;
   font-size: 32px;
   margin-top: 40px;
   animation: glitch 0.15s infinite;
+  transition: opacity 0.3s ease;
+}
+#access.show {
+  opacity: 1;
 }
 
 @keyframes glitch {
@@ -68,9 +76,13 @@ body::after {
 
 /* Decode button */
 #decodeBtnContainer {
-  display: none;
+  opacity: 0;
   text-align: center;
   margin-top: 20px;
+  transition: opacity 0.3s ease;
+}
+#decodeBtnContainer.show {
+  opacity: 1;
 }
 #decodeBtnContainer button {
   padding: 12px 20px;
@@ -197,7 +209,7 @@ function typeSmooth() {
 
 function showProgress() {
   terminal.innerHTML += "\nLoading payload...\n";
-  progressBox.style.display = "block";
+  progressBox.classList.add('show');
   let p = 0;
   const intv = setInterval(() => {
     p += 2;
@@ -211,23 +223,23 @@ function showProgress() {
 
 function showAccess() {
   terminal.style.display = "none";
-  progressBox.style.display = "none";
-  access.style.display = "block";
+  progressBox.classList.remove('show');
+  access.classList.add('show');
 
   document.body.classList.add("flash");
   setTimeout(() => document.body.classList.remove("flash"), 300);
 
   // Show "Start Decoding" button after Access Granted
   setTimeout(() => {
-    decodeBtnContainer.style.display = "block";
+    decodeBtnContainer.classList.add('show');
     decodeBtn.onclick = startFinalReveal;
-  }, 800);
+  }, 500);
 }
 
-// New function for final reveal
+// Final reveal function
 function startFinalReveal() {
-  decodeBtnContainer.style.display = "none";
-  access.style.display = "none";
+  decodeBtnContainer.classList.remove('show');
+  access.classList.remove('show');
   final.style.display = "block";
   floatImg.style.display = "block";
 
@@ -256,7 +268,7 @@ function launchConfettiSmooth() {
 }
 
 // Start typing animation
-typeSmooth();
+window.addEventListener('load', typeSmooth);
 </script>
 
 </body>
